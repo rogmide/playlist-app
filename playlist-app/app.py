@@ -2,7 +2,9 @@ from flask import Flask, redirect, render_template, flash
 from models import db, connect_db, Playlist, Song, PlaylistSong
 from forms import NewSongForPlaylistForm, SongForm, PlaylistForm
 from sqlalchemy.exc import IntegrityError
-
+from datetime import date, datetime
+# Thinkin in using this to show last time updated
+# date = datetime.now().strftime("%Y/%m/%d, %I:%M:%S %p")
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///playlist-app'
@@ -40,6 +42,10 @@ def show_playlist(playlist_id):
     """Show detail on specific playlist."""
 
     # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
+
+    playlist = Playlist.query.get_or_404(playlist_id)
+
+    return render_template('playlist.html', playlist=playlist)
 
 
 @app.route("/playlists/add", methods=["GET", "POST"])
@@ -135,6 +141,7 @@ def add_song_to_playlist(playlist_id):
 
     playlist = Playlist.query.get_or_404(playlist_id)
     form = NewSongForPlaylistForm()
+
 
     # Restrict form to songs not already on this playlist
 

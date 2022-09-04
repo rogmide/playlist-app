@@ -1,17 +1,33 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
+{% extends 'base.html' %} {% block content %}
+<!-- 
 <div class="jumbotron">
   <h1>{{ playlist.name }}!</h1>
   {% if playlist.description %}
   <p class="lead">{{ playlist.description }}</p>
   {% endif %}
-</div>
+</div> -->
 
-
-<div class="text-danger">
-  SHOW ALL OF THE SONGS IN THIS PLAYLIST HERE
+<div class="card mb-3">
+  <img src="/static/img/banner.png" class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{ playlist.name }}!</h5>
+    <small class="text-muted"><b>Rating:</b> ★ ★ ★ ★</small>
+    <p>
+      <span class="text-info">Description: </span> {{ playlist.description }}
+    </p>
+    <div><h5 class="card-title text-success">Songs List:</h5></div>
+    <div class="container" style="display: flex">
+      {% for song in playlist.songs %}
+      <div class="card mb-2 mr-2">
+        <div class="card-header">
+          <b class="text-success">{{ song.songs.title }} </b
+          ><a class="text-info" href="/songs/{{song.songs.id}}"> [info]</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="card-text"></p>
+  </div>
 </div>
 
 <p>

@@ -55,7 +55,7 @@ class Song(db.Model):
                       nullable=False,
                       unique=False)
 
-    playlist = db.relationship('PlaylistSong', backref='songs')
+    playlists = db.relationship('PlaylistSong', backref='songs')
 
 
 class PlaylistSong(db.Model):
