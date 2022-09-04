@@ -1,21 +1,22 @@
 from flask import Flask, redirect, render_template
-
 from models import db, connect_db, Playlist, Song, PlaylistSong
 from forms import NewSongForPlaylistForm, SongForm, PlaylistForm
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///playlist-app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 
 connect_db(app)
-db.create_all()
 
 app.config['SECRET_KEY'] = "I'LL NEVER TELL!!"
 
 @app.route("/")
 def root():
     """Homepage: redirect to /playlists."""
+
+    # db.create_all()
 
     return redirect("/playlists")
 
