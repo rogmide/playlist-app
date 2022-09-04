@@ -12,6 +12,11 @@ class Playlist(db.Model):
 
     __tablename__ = "playlists"
 
+    def __repr__(self):
+        '''Better Representation of the class'''
+        p = self
+        return f'<Playlist id={p.id} name={p.name} description={p.description}>'
+
     id = db.Column(db.Integer,
                    primary_key=True,
                    autoincrement=True)
@@ -23,6 +28,8 @@ class Playlist(db.Model):
     description = db.Column(db.Text,
                             nullable=True)
 
+    songs = db.relationship('PlaylistSong', backref='playlists')
+
 
 class Song(db.Model):
     """Song."""
@@ -30,6 +37,11 @@ class Song(db.Model):
     # ADD THE NECESSARY CODE HERE
 
     __tablename__ = "songs"
+
+    def __repr__(self):
+        '''Better Representation of the class'''
+        s = self
+        return f'<Song id={s.id} title={s.title} artis={s.artis}>'
 
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -41,7 +53,9 @@ class Song(db.Model):
 
     artis = db.Column(db.String(50),
                       nullable=False,
-                      unique=True)
+                      unique=False)
+
+    playlist = db.relationship('PlaylistSong', backref='songs')
 
 
 class PlaylistSong(db.Model):

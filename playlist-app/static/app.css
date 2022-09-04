@@ -4,21 +4,6 @@ body {
   color: black;
 }
 
-.collapse {
-  justify-content: flex-end;
+.text_field {
+  width: 30vw;
 }
-
-.form-control {
-  max-width: 300px;
-}
-
-.feedback_holder {
-  display: flex;
-  width: 90vw;
-}
-
-/* img {
-  width: 300px;
-  height: 300px;
-  margin-top: 200px;
-} */

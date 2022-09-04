@@ -1,0 +1,16 @@
+<div class="container">
+  <br />
+  <form class="" method="POST">
+    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+    'hidden' %}
+    <p>
+      {% for error in field.errors %}
+      <span class="form-text text-danger"> {{ error }} </span>
+      <br />
+      {% endfor %} {{ field.label }} {{ field(class_="text_field form-control")
+      }}
+    </p>
+    {% endfor %}
+    <button class="btn btn-success" type="submit">Add</button>
+  </form>
+</div>

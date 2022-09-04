@@ -1,6 +1,7 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, flash
 from models import db, connect_db, Playlist, Song, PlaylistSong
 from forms import NewSongForPlaylistForm, SongForm, PlaylistForm
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 
@@ -12,10 +13,12 @@ connect_db(app)
 
 app.config['SECRET_KEY'] = "I'LL NEVER TELL!!"
 
+
 @app.route("/")
 def root():
     """Homepage: redirect to /playlists."""
 
+    # db.drop_all()
     # db.create_all()
 
     return redirect("/playlists")
@@ -49,6 +52,27 @@ def add_playlist():
 
     # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
 
+    form = PlaylistForm()
+
+    if form.validate_on_submit():
+
+        name = form.name.data
+        description = form.description.data
+
+        db.session.add(Playlist(name=name, description=description))
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            form.name.errors.append('Playlist is on file. Add another!')
+            return render_template('new_playlist.html', form=form)
+
+        flash('Playlist added!', 'info')
+
+        return redirect('/playlists')
+
+    return render_template('new_playlist.html', form=form)
+
 
 ##############################################################################
 # Song routes
@@ -79,6 +103,27 @@ def add_song():
 
     # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
 
+    form = SongForm()
+
+    if form.validate_on_submit():
+
+        title = form.title.data
+        artis = form.artis.data
+
+        db.session.add(Song(title=title, artis=artis))
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            form.title.errors.append('Song is on file. Add another!')
+            return render_template('new_song.html', form=form)
+
+        flash('Song added!', 'info')
+
+        return redirect('/songs')
+
+    return render_template('new_song.html', form=form)
+
 
 @app.route("/playlists/<int:playlist_id>/add-song", methods=["GET", "POST"])
 def add_song_to_playlist(playlist_id):
@@ -98,10 +143,10 @@ def add_song_to_playlist(playlist_id):
 
     if form.validate_on_submit():
 
-          # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
+        # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
 
-          return redirect(f"/playlists/{playlist_id}")
+        return redirect(f"/playlists/{playlist_id}")
 
     return render_template("add_song_to_playlist.html",
-                             playlist=playlist,
-                             form=form)
+                           playlist=playlist,
+                           form=form)

@@ -1,16 +1,36 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>See all the playlists!</h1>
 
-<ul>
-{% for playlist in playlists %}
+<!-- <ul>
+  {% for playlist in playlists %}
   <li>
-     <a href="/playlists/{{ playlist.id }}">{{ playlist.name }}</a>
+    <a href="/playlists/{{ playlist.id }}">{{ playlist.name }}</a>
   </li>
+  {% endfor %}
+</ul> -->
+
+{% for playlist in playlists %}
+<div class="card mb-2">
+  <div class="card-header">
+    <b class="text-success">{{ playlist.name }} </b
+    ><a class="text-info" href="/playlists/{{ playlist.id }}"> [info]</a>
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p>
+        <span class="text-info">Description: </span> {{ playlist.description }}
+      </p>
+      <p>
+        <span class="text-info">Songs List: </span> {{ playlist.description }}
+      </p>
+      <footer class="blockquote-footer">
+        <cite title="Source Title">Owner: Someone</cite>
+      </footer>
+    </blockquote>
+  </div>
+</div>
 {% endfor %}
-</ul>
 
 <p><a class="btn btn-primary" href="/playlists/add">Add a playlist</a></p>
 
