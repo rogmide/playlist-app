@@ -1,14 +1,44 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-
-<div class="jumbotron">
+<!-- <div class="jumbotron">
   <h1>{{ song.title }}!</h1>
   <p class="lead">&ndash; {{ song.artist }}</p>
-</div>
+</div> -->
 
-<ul>
-  DISPLAY ALL OF THE PLAYLISTS THAT THIS SONG IS A PART OF
-</ul>
+<div class="card mb-2">
+  <div class="card-header">
+    <b class="text-success">{{ song.title }} </b>
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p>
+        <span class="text-info">Back Story: </span> Laoreet non curabitur
+        gravida arcu ac tortor dignissim convallis. Amet justo donec enim diam
+        vulputate.
+      </p>
+      <footer class="blockquote-footer">
+        <cite title="Source Title">By {{ song.artis }}</cite>
+      </footer>
+    </blockquote>
+  </div>
+</div>
+<div><h5 class="card-title text-success">Playlist where the song is added!</h5></div>
+
+
+<div class="card mb-3">
+  <div class="container" style="display: flex; flex-wrap: wrap">
+    {% for p in song.playlists %}
+    <div class="card mt-2 mb-2 mr-2">
+      <div class="card-header">
+        <b class="text-success">{{ p.playlists.name }} </b
+        ><a class="text-info" href="/playlists/{{p.playlists.id}}">
+          [info]</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+</div>
 
 {% endblock %}

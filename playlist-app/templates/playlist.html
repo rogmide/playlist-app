@@ -16,7 +16,7 @@
       <span class="text-info">Description: </span> {{ playlist.description }}
     </p>
     <div><h5 class="card-title text-success">Songs List:</h5></div>
-    <div class="container" style="display: flex">
+    <div class="container" style="display: flex; flex-wrap: wrap">
       {% for song in playlist.songs %}
       <div class="card mb-2 mr-2">
         <div class="card-header">

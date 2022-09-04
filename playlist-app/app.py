@@ -98,6 +98,10 @@ def show_song(song_id):
 
     # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
 
+    song = Song.query.get_or_404(song_id)
+
+    return render_template('song.html', song=song)
+
 
 @app.route("/songs/add", methods=["GET", "POST"])
 def add_song():
@@ -142,15 +146,24 @@ def add_song_to_playlist(playlist_id):
     playlist = Playlist.query.get_or_404(playlist_id)
     form = NewSongForPlaylistForm()
 
-
     # Restrict form to songs not already on this playlist
 
-    curr_on_playlist = ...
-    form.song.choices = ...
+    curr_on_playlist = playlist.songs
+    form.song.choices = [(song.id, song.title) for song in Song.query.all()]
+
+    # remove duplicated
+    for song in curr_on_playlist:
+        if (song.songs.id, song.songs.title) in form.song.choices:
+            form.song.choices.remove((song.songs.id, song.songs.title))
 
     if form.validate_on_submit():
 
         # ADD THE NECESSARY CODE HERE FOR THIS ROUTE TO WORK
+
+        new_added = PlaylistSong(
+            playlist_id=playlist_id, song_id=form.song.data)
+        db.session.add(new_added)
+        db.session.commit()
 
         return redirect(f"/playlists/{playlist_id}")
 
